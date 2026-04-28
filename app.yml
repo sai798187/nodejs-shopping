@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: nodejs-shopping
-        image: yourdockerhubusername/nodejs-shopping:latest
+        image: sai798187/nodejs-shopping:latest
         ports:
         - containerPort: 3000
         env:
