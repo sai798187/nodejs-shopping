@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-shopping
+  namespace: shopping-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nodejs-shopping
+  template:
+    metadata:
+      labels:
+        app: nodejs-shopping
+    spec:
+      containers:
+      - name: nodejs-shopping
+        image: yourdockerhubusername/nodejs-shopping:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: MONGO_URL
+          value: mongodb://admin:password123@mongodb:27017/admin
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-shopping
+  namespace: shopping-app
+spec:
+  selector:
+    app: nodejs-shopping
+  ports:
+  - port: 80
+    targetPort: 3000
+  type: LoadBalancer
