@@ -19,8 +19,8 @@ spec:
         ports:
         - containerPort: 3000
         env:
-        - name: MONGO_URI
-          value: "mongodb://root:example@mongodb:27017/shop?authSource=admin"
+        - name: MONGO_URL
+          value: mongodb://admin:password123@mongodb:27017/shop?authSource=admin
 
 ---
 apiVersion: v1
