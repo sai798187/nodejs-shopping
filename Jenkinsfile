@@ -5,11 +5,12 @@ pipeline {
     IMAGE_NAME = "sai798187/nodejs-shopping"
     IMAGE_TAG  = "${BUILD_NUMBER}"
     KUBE_NAMESPACE = "shopping-app"
+    Dockerhub-Credentials="docker-cred"
   }
 
   stages {
     stage('Checkout') {
-      steps { https://github.com/sai798187/nodejs-shopping.git }
+      steps { git credentialsId: 'git-cred', url: 'https://github.com/sai798187/nodejs-shopping.git' }
     }
 
     stage('Install & Test') {
@@ -27,7 +28,7 @@ pipeline {
 
     stage('Push Docker Image') {
       steps {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+        withCredentials([usernamePassword(credentialsId: 'Dockerhub-Credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
           sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
           sh 'docker push $IMAGE_NAME:$IMAGE_TAG'
           sh 'docker push $IMAGE_NAME:latest'
