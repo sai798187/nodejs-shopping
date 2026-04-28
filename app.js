@@ -20,8 +20,8 @@ const errorController = require('./controllers/error');
 const User = require('./models/user');
 const { forwardError } = require('./utils');
 
-const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@cluster0-hcscb.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
-//const MONGODB_URI = process.env.MONGO_URI;
+//const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@cluster0-hcscb.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
+const MONGODB_URI = process.env.MONGO_URI;
 const app = express();
 const store = new MongoDbSessionStore({
   uri: MONGODB_URI,
