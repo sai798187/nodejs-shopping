@@ -5,7 +5,7 @@ pipeline {
     IMAGE_NAME = "sai798187/nodejs-shopping"
     IMAGE_TAG  = "${BUILD_NUMBER}"
     KUBE_NAMESPACE = "shopping-app"
-    Dockerhub_Credentials = "dockerhub-cred"
+    Dockerhub_Cred = "dockerhub-cred"
   }
 
   stages {
@@ -28,7 +28,7 @@ pipeline {
 
     stage('Push Docker Image') {
       steps {
-        withCredentials([usernamePassword(credentialsId: 'Dockerhub_Credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+        withCredentials([usernamePassword(credentialsId: 'Dockerhub_Cred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
           sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
           sh 'docker push $IMAGE_NAME:$IMAGE_TAG'
           sh 'docker push $IMAGE_NAME:latest'
