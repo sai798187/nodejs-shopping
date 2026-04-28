@@ -24,7 +24,7 @@ pipeline {
                steps {
                    withSonarQubeEnv("${SONARQUBE_ENV}") {
                        sh 'npm ci'
-                       sh 'npm run sonar'
+                       sh 'npx  sonar-sonar'
                    }
                }
          }
