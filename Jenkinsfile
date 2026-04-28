@@ -5,7 +5,7 @@ pipeline {
     IMAGE_NAME = "sai798187/nodejs-shopping"
     IMAGE_TAG  = "${BUILD_NUMBER}"
     KUBE_NAMESPACE = "shopping-app"
-    Dockerhub_Credentials ="docker-cred"
+    Dockerhub_Credentials = "docker-cred"
   }
 
   stages {
