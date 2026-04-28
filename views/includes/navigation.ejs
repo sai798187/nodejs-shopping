@@ -31,7 +31,7 @@
       <% } %>
     </ul>
     <ul class="main-header__item-list">
-      <% if (typeof isAuthenticated !== 'undefined' && isAuthenticated) { %>
+      <% if(!isAuthenticated) { %>
         <li class="main-header__item">
           <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
         </li>
