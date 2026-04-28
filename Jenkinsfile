@@ -53,7 +53,7 @@ pipeline {
 
     stage('Deploy to Kubernetes') {
       steps {
-        aws eks update-kubeconfig --region us-east-1 --name cluster1
+        sh 'aws eks update-kubeconfig --region us-east-1 --name cluster1'
         sh 'kubectl apply -f k8s/namespace.yaml'
         sh 'kubectl apply -f k8s/mongodb.yaml'
         sh 'kubectl apply -f k8s/app.yaml'
