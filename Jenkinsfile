@@ -6,6 +6,7 @@ pipeline {
     IMAGE_TAG  = "${BUILD_NUMBER}"
     KUBE_NAMESPACE = "shopping-app"
     DOCKERHUB_CRED = "dockerhub-cred"
+    SONARQUBE_ENV = "sq"
   }
 
   stages {
@@ -19,6 +20,20 @@ pipeline {
         sh 'npm test || true' // replace with real tests
       }
     }
+    stage('SonarQube Analysis') {
+               steps {
+                   withSonarQubeEnv("${SONARQUBE_ENV}") {
+                       sh 'npm sonar:sonar'
+                   }
+               }
+         }
+       stage('Quality Gate') {
+               steps {
+                   timeout(time: 1, unit: 'MINUTES') {
+                       waitForQualityGate abortPipeline: true
+                   }
+               }
+           }
 
     stage('Build Docker Image') {
       steps {
