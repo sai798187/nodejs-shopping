@@ -19,12 +19,8 @@ spec:
         ports:
         - containerPort: 3000
         env:
-          - name: MONGO_USER
-            value: "admin"
-          - name: MONGO_PWD
-            value: "password123"
-          - name: MONGO_DB
-            value: "mongodb-secret"
+          - name: MONGO_URI
+            value: "mongodb://mongodb:27017/shop"
       
 ---
 apiVersion: v1
