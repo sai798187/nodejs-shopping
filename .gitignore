@@ -3,3 +3,8 @@
 node_modules
 data
 access.log
+npm-debug.log
+.git
+.gitignore
+Dockerfile
+Jenkinsfile
