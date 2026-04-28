@@ -55,9 +55,9 @@ pipeline {
     stage('Deploy to Kubernetes') {
       steps {
         sh 'aws eks update-kubeconfig --region us-east-1 --name cluster1'
-        sh 'kubectl apply -f namespace.yaml'
-        sh 'kubectl apply -f mongodb.yaml'
-        sh 'kubectl apply -f app.yaml'
+        sh 'kubectl apply -f namespace.yml'
+        sh 'kubectl apply -f mongodb.yml'
+        sh 'kubectl apply -f app.yml'
         sh "kubectl -n $KUBE_NAMESPACE set image deployment/nodejs-shopping nodejs-shopping=$IMAGE_NAME:$IMAGE_TAG"
       }
     }
