@@ -19,10 +19,12 @@ const authRoutes = require('./routes/auth');
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 const { forwardError } = require('./utils');
+const { connectPostgres, closePostgres } = require('./db/postgres');
 
 const MONGODB_URI =
   process.env.MONGO_URL ||
   `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@cluster0-hcscb.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
+
 const app = express();
 const store = new MongoDbSessionStore({
   uri: MONGODB_URI,
@@ -74,7 +76,7 @@ app.use(csrf());
 app.use(flash());
 
 app.use((req, res, next) => {
-  res.locals.isAuthenticated = !!(req.session && req.session.isLoggedIn);
+  res.locals.isAuthenticated = req.session.isLoggedIn;
   res.locals.csrfToken = req.csrfToken();
   next();
 });
@@ -104,13 +106,37 @@ app.use(errorController.get404);
 // Unexpected Error Handler Middleware
 app.use(errorController.get500);
 
-mongoose
-  .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
+const startServer = async () => {
+  try {
+    await mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
     console.log('Successfully connected to MongoDb...');
+
+    await connectPostgres();
+    console.log('Successfully connected to PostgreSQL...');
+
     const port = process.env.PORT || 3000;
     app.listen(port, () => {
       console.log(`Listening to port ${port}...`);
     });
-  })
-  .catch((err) => console.log(err));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const shutdown = async () => {
+  try {
+    await Promise.all([
+      mongoose.connection.close(),
+      closePostgres()
+    ]);
+  } catch (err) {
+    console.log('Error while closing database connections:', err);
+  } finally {
+    process.exit(0);
+  }
+};
+
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
+
+startServer();
