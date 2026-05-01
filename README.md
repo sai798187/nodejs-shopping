@@ -15,6 +15,32 @@ This application was built using [Node.js 14](https://nodejs.org/en/), [Express]
 7. Run `npm start`
 8. Visit the website http://localhost:3000/ on your favourite browser
 
+## Environment variables
+
+This app can now run with **both MongoDB and PostgreSQL** at the same time.
+
+### MongoDB (existing)
+
+- `MONGO_URL` (recommended full URI), or
+- `MONGO_USER`, `MONGO_PWD`, `MONGO_DB`
+
+### PostgreSQL (AWS RDS)
+
+Choose one setup style:
+
+- `POSTGRES_URL` (recommended), optional `POSTGRES_SSL=true`
+
+or
+
+- `POSTGRES_HOST`
+- `POSTGRES_PORT` (default: `5432`)
+- `POSTGRES_DB`
+- `POSTGRES_USER`
+- `POSTGRES_PASSWORD`
+- optional `POSTGRES_SSL=true`
+
+If you use AWS RDS with SSL enabled, set `POSTGRES_SSL=true`.
+
 ## Application
 
 ### Signup
